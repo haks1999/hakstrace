@@ -17,7 +17,10 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+
+import com.hakstrace.framework.interceptor.ThymeleafLayoutInterceptor;
 
 @Configuration
 @Controller
@@ -37,6 +40,12 @@ public class SecurityConfigure extends WebMvcConfigurerAdapter {
 	public AuthenticationSecurity authenticationSecurity() {
 		return new AuthenticationSecurity();
 	}
+	
+	@Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new ThymeleafLayoutInterceptor());
+    }
+
 
 	@Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
 	protected static class ApplicationSecurity extends WebSecurityConfigurerAdapter {

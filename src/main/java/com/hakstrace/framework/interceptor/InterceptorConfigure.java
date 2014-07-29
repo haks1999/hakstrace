@@ -12,4 +12,5 @@ public class InterceptorConfigure extends WebMvcConfigurerAdapter {
         registry.addInterceptor(new ThymeleafLayoutInterceptor());
     }
 
+
 }
