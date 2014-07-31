@@ -6,21 +6,21 @@ import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.authentication.configurers.GlobalAuthenticationConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-import com.hakstrace.framework.interceptor.ThymeleafLayoutInterceptor;
+import com.hakstrace.framework.security.service.MyUserDetailsService;
 
 @Configuration
 @Controller
@@ -36,48 +36,84 @@ public class SecurityConfigure extends WebMvcConfigurerAdapter {
 		return new ApplicationSecurity();
 	}
 
+	/*
 	@Bean
 	public AuthenticationSecurity authenticationSecurity() {
 		return new AuthenticationSecurity();
 	}
+	*/
 	
-	@Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new ThymeleafLayoutInterceptor());
-    }
-
-
 	@Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
 	protected static class ApplicationSecurity extends WebSecurityConfigurerAdapter {
 
 		@Autowired
 		private SecurityProperties security;
-
+		@Autowired
+		private DataSource dataSource;
+		@Autowired
+		private ApplicationContext appContext;
+		//@Autowired
+		//private MyUserDetailsService myUserDetailsService;
+		
+		
+		@Override
+		protected UserDetailsService userDetailsService() {
+			//return new MyUserDetailsService();
+			return (UserDetailsService) appContext.getBean("myUserDetailsService");
+	    }
+	    
+		
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
-			http.authorizeRequests().anyRequest().fullyAuthenticated().and().formLogin()
-					.loginPage("/login").failureUrl("/login?error").permitAll();
+			http.authorizeRequests().anyRequest().fullyAuthenticated().and().formLogin().defaultSuccessUrl("/")
+					.loginPage("/login").failureUrl("/login?error").permitAll().and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/");
 		}
 		
 		@Override
 		public void configure(WebSecurity web) throws Exception {
-			web.ignoring().antMatchers("/plugins/**"); // #3
+			web.ignoring().antMatchers("/plugins/**","/img/**"); // #3
 		}
+		
+		
+		@Override
+		public void configure(AuthenticationManagerBuilder auth) throws Exception{
+			
+			auth.userDetailsService(userDetailsService()).and().jdbcAuthentication().dataSource(this.dataSource);
+		}
+		
 	}
 
-	@Order(Ordered.HIGHEST_PRECEDENCE + 10)
-	protected static class AuthenticationSecurity extends
-			GlobalAuthenticationConfigurerAdapter {
+	//@Order(Ordered.HIGHEST_PRECEDENCE + 10)
+	/*
+	protected static class AuthenticationSecurity extends GlobalAuthenticationConfigurerAdapter {
 
 		@Autowired
 		private DataSource dataSource;
+		//@Autowired
+		//private MyUserDetailsService myUserDetailsService;
 
+		@Bean
+		protected UserDetailsService userDetailsService() {
+			return new MyUserDetailsService();
+	    }
+		
 		@Override
 		public void init(AuthenticationManagerBuilder auth) throws Exception {
 			auth.jdbcAuthentication().dataSource(this.dataSource).withUser("admin")
 					.password("admin").roles("ADMIN", "USER").and().withUser("user")
 					.password("user").roles("USER");
+					
 		}
+		
+		@Override
+		public void configure(AuthenticationManagerBuilder auth) throws Exception{
+			//PasswordEncoder encoder = new BCryptPasswordEncoder();
+			//auth.userDetailsService(userDetailsService);//.passwordEncoder(encoder);
+			//auth.userDetailsService(myUserDetailsService);//.and().jdbcAuthentication().dataSource(dataSource);
+			auth.userDetailsService(this.userDetailsService());
+		}
+		
 	}
+	*/
 
 }
