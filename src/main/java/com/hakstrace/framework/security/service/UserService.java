@@ -16,7 +16,7 @@ import com.hakstrace.framework.security.domain.User;
 import com.hakstrace.framework.security.repository.UserRepository;
 
 @Service 
-public class MyUserDetailsService implements UserDetailsService {
+public class UserService implements UserDetailsService {
 
   @Autowired 
   private UserRepository userRepository;
@@ -26,11 +26,7 @@ public class MyUserDetailsService implements UserDetailsService {
       throws UsernameNotFoundException, DataAccessException {
 
     UserDetails userDetails = null;
-System.out.println("userRepo : " + userRepository);    
     User user = userRepository.findById(userName);
-System.out.println("###############");    
-System.out.println(user);    
-System.out.println("###############");
     if (user == null)
       throw new UsernameNotFoundException("user not found");
 

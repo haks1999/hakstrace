@@ -2,8 +2,6 @@ package com.hakstrace.framework.security;
 
 import java.util.Map;
 
-import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.ApplicationContext;
@@ -15,12 +13,11 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-
-import com.hakstrace.framework.security.service.MyUserDetailsService;
 
 @Configuration
 @Controller
@@ -49,36 +46,27 @@ public class SecurityConfigure extends WebMvcConfigurerAdapter {
 		@Autowired
 		private SecurityProperties security;
 		@Autowired
-		private DataSource dataSource;
-		@Autowired
-		private ApplicationContext appContext;
-		//@Autowired
-		//private MyUserDetailsService myUserDetailsService;
-		
+		private ApplicationContext context;
 		
 		@Override
 		protected UserDetailsService userDetailsService() {
-			//return new MyUserDetailsService();
-			return (UserDetailsService) appContext.getBean("myUserDetailsService");
+			return (UserDetailsService) context.getBean("userService");
 	    }
-	    
 		
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
 			http.authorizeRequests().anyRequest().fullyAuthenticated().and().formLogin().defaultSuccessUrl("/")
-					.loginPage("/login").failureUrl("/login?error").permitAll().and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/");
+					.loginPage("/login").failureUrl("/login?error").permitAll().and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login");
 		}
 		
 		@Override
 		public void configure(WebSecurity web) throws Exception {
-			web.ignoring().antMatchers("/plugins/**","/img/**"); // #3
+			web.ignoring().antMatchers("/plugins/**","/img/**");
 		}
-		
 		
 		@Override
 		public void configure(AuthenticationManagerBuilder auth) throws Exception{
-			
-			auth.userDetailsService(userDetailsService()).and().jdbcAuthentication().dataSource(this.dataSource);
+			auth.userDetailsService(userDetailsService()).passwordEncoder(new BCryptPasswordEncoder());
 		}
 		
 	}
