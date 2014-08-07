@@ -12,7 +12,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 public class ViewConfigure extends WebMvcConfigurerAdapter {
 
 	@RequestMapping("/")
+	@Layout("layouts/main_layout")
 	public String index(Map<String, Object> model) {
 		return "hakstrace/index";
 	}
+	
 }

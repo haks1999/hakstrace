@@ -13,7 +13,7 @@ import com.hakstrace.framework.view.Layout;
 
 public class ThymeleafLayoutInterceptor extends HandlerInterceptorAdapter {
 
-	private static final String DEFAULT_LAYOUT = "layouts/default";
+	private static final String DEFAULT_LAYOUT = "layouts/default_layout";
 	private static final String DEFAULT_VIEW_ATTRIBUTE_NAME = "view";
 
 	private String defaultLayout = DEFAULT_LAYOUT;
