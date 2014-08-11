@@ -12,11 +12,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.hakstrace.framework.security.domain.User;
-import com.hakstrace.framework.security.repository.UserRepository;
+import com.hakstrace.system.user.domain.User;
+import com.hakstrace.system.user.repository.UserRepository;
 
 @Service 
-public class UserService implements UserDetailsService {
+public class SecurityService implements UserDetailsService {
 
   @Autowired 
   private UserRepository userRepository;

@@ -739,6 +739,8 @@ td.beauty-hover {
 .well pre code {
   white-space: normal;
 }
+
+/** haks buttons comment out
 .btn {
   border-width: 1px;
   border-style: solid;
@@ -826,6 +828,7 @@ td.beauty-hover {
   border-color: rgba(0, 0, 0, 0.3);
   color: #929292;
 }
+**/
 .btn-primary, .btn-primary.disabled, .btn-primary[disabled], fieldset[disabled] .btn-primary, .btn-primary.disabled:hover, .btn-primary[disabled]:hover, fieldset[disabled] .btn-primary:hover, .btn-primary.disabled:focus, .btn-primary[disabled]:focus, fieldset[disabled] .btn-primary:focus, .btn-primary.disabled:active, .btn-primary[disabled]:active, fieldset[disabled] .btn-primary:active, .btn-primary.disabled.active, .btn-primary[disabled].active, fieldset[disabled] .btn-primary.active,
 .table > thead > tr > td.primary, .table > tbody > tr > td.primary, .table > tfoot > tr > td.primary, .table > thead > tr > th.primary, .table > tbody > tr > th.primary, .table > tfoot > tr > th.primary, .table > thead > tr.primary > td, .table > tbody > tr.primary > td, .table > tfoot > tr.primary > td, .table > thead > tr.primary > th, .table > tbody > tr.primary > th, .table > tfoot > tr.primary > th {
   background-color: #6AA6D6;
@@ -1296,6 +1299,7 @@ td.beauty-hover {
   border-radius: 2px;
   color: #000;
 }
+ /** haks forms comment out
 .form-control {
   height: 26px;
   padding: 2px 12px;
@@ -1306,6 +1310,8 @@ td.beauty-hover {
 .input-sm {
   height:18px;
 }
+ **/
+ 
 .bg-default {
   background: #D8D8D8 !important;
 }
@@ -1418,12 +1424,14 @@ td.beauty-hover {
 .input-group-addon {
   padding: 0px 6px;
 }
+ /** haks forms comment out
 .form-group .form-control, .form-group .input-group {
   margin-bottom: 5px;
 }
 .input-group .form-control {
   margin:0;
 }
+**/
 #ui-datepicker-div {
   background: rgba(0, 0, 0, 0.7) !important;
   border:0;

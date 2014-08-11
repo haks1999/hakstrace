@@ -53,7 +53,7 @@ public class SecurityConfigure extends WebMvcConfigurerAdapter {
 		
 		@Override
 		protected UserDetailsService userDetailsService() {
-			return (UserDetailsService) context.getBean("userService");
+			return (UserDetailsService) context.getBean("securityService");
 	    }
 		
 		@Override

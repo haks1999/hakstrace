@@ -1,4 +1,4 @@
-package com.hakstrace.framework.security.domain;
+package com.hakstrace.system.user.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

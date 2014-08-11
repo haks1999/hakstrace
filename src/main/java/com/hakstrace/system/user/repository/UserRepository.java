@@ -1,14 +1,15 @@
-package com.hakstrace.framework.security.repository;
+package com.hakstrace.system.user.repository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.repository.Repository;
 
-import com.hakstrace.framework.security.domain.User;
+import com.hakstrace.system.user.domain.User;
 
 public interface UserRepository extends Repository<User, String> {
 
-	Page<User> findAll(Pageable pageable);
+	Page<User> findAll(Specification<User> spec, Pageable pageable);
 
 	/*
 	Page<User> findByNameContainingAndCountryContainingAllIgnoringCase(String name,
