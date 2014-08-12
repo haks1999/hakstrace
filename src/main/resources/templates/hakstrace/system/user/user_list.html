@@ -1,30 +1,15 @@
 <div class="container-fluid" th:fragment="content">
 
-
-
 <script th:inline="javascript">
 //<![CDATA[
 $(function() {
-	retrieveUserList();
+	$("#btn_search").click(function(){
+		hakstrace.loadPageableTable("tbl_userList", /*[[ @{'/system/users/list'} ]]*/, {userName:$("#ipt_userName").val()});
+	});
 	
+	$("#btn_search").trigger("click");
 });
 
-function retrieveUserList(){
-	var targetTable = $('#tbl_userList');
-	$(targetTable).find('tbody tr').not('.hide').remove();
-	$.getJSON(/*[[ @{'/system/users/list'} ]]*/,{}).done(function(pageableUserList){
-		var userList = pageableUserList.content;
-		for( var inx=0; inx < userList.length; inx++ ){
-			var copiedRow = $(targetTable).find('tbody tr.hide').clone();
-			$(copiedRow).find('.id').text(userList[inx].id);
-			$(copiedRow).find('.userName').text(userList[inx].userName);
-			$(copiedRow).find('.email').text(userList[inx].email);
-			$(copiedRow).removeClass('hide');
-			$(targetTable).append(copiedRow);
-		}
-		
-	});
-};
 //]]>
 </script>
 
@@ -65,7 +50,7 @@ function retrieveUserList(){
   					<button id="btn_search" type="submit" class="btn btn-default">Search</button>
       			</form>
 
-				<table id="tbl_userList" class="table table-striped table-hover">
+				<table id="tbl_userList" class="table table-striped table-hover table-pagable-default">
 					<thead>
 						<tr>
 							<th>#</th>
@@ -76,78 +61,26 @@ function retrieveUserList(){
 					</thead>
 					<tbody class="table-hover">
 						<tr class="hide">
-							<td class=""></td>
-							<td class="id"></td>
-							<td class="userName"></td>
-							<td class="email"></td>
-						</tr>
-						<tr>
-							<td>2</td>
-							<td>Apache</td>
-							<td>http://apache.org</td>
-							<td>webserver</td>
-						</tr>
-						<tr>
-							<td>3</td>
-							<td>Skype</td>
-							<td>http://www.skype.com</td>
-							<td>Messenger</td>
-						</tr>
-						<tr>
-							<td>4</td>
-							<td>Blender</td>
-							<td>http://www.blender.org</td>
-							<td>3D-modeller</td>
+							<td abbr=""></td>
+							<td abbr="userId"></td>
+							<td abbr="userName"></td>
+							<td abbr="email"></td>
 						</tr>
 					</tbody>
 				</table>
-			</div>
-
-
-
-				<div class="box-content">
 				
-					<div class="col-sm-6">
-						<div class="dataTables_info">Showing 1 to 10 of 100 entries</div>
-					</div>
-					<div class="col-sm-6 text-right">
-						<div class="dataTables_paginate paging_bootstrap">
-							<ul class="pagination">
-								<li class="prev disabled"><a href="#">Previous</a></li>
-								<li class="next"><a href="#">Next</a></li>
-							</ul>
-						</div>
-					</div>
-					<div class="clearfix"></div>
-					
-					<!-- 
-					<div class="col-sm-6">
-						<div class="dataTables_info" id="datatable-1_info">Showing 1 to 10 of 100 entries</div>
-					</div>
-					<div class="col-sm-6 text-right">
-						<div class="dataTables_paginate paging_bootstrap">
-							<ul class="pagination">
-								<li class="prev disabled"><a href="#">Previous</a></li>
-								<li class="active"><a href="#">1</a></li>
-								<li><a href="#">2</a></li>
-								<li><a href="#">3</a></li>
-								<li><a href="#">4</a></li>
-								<li><a href="#">5</a></li>
-								<li class="next"><a href="#">Next</a></li>
-							</ul>
-						</div>
-					</div>
-					<div class="clearfix"></div>
-					 -->
-					
-				</div>
-
-
-
-
-
-
 			</div>
+
+
+
+				
+
+
+
+
+
+
+		</div>
 	</div>
 </div>
 

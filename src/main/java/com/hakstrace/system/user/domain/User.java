@@ -14,7 +14,8 @@ public class User extends Domain{
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	private String id;
+	@Column(name="user_id", nullable = false)
+	private String userId;
 
 	@Column(name="user_name", nullable = false)
 	private String userName;
@@ -28,12 +29,12 @@ public class User extends Domain{
 	protected User() {
 	}
 
-	public String getId() {
-		return id;
+	public String getUserId() {
+		return userId;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
 	public String getUserName() {

@@ -26,7 +26,7 @@ public class SecurityService implements UserDetailsService {
       throws UsernameNotFoundException, DataAccessException {
 
     UserDetails userDetails = null;
-    User user = userRepository.findById(userName);
+    User user = userRepository.findByUserId(userName);
     if (user == null)
       throw new UsernameNotFoundException("user not found");
 

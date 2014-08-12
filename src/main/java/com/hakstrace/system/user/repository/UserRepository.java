@@ -18,6 +18,6 @@ public interface UserRepository extends Repository<User, String> {
 	City findByNameAndCountryAllIgnoringCase(String name, String country);
 	*/
 	
-	User findById(String id);
+	User findByUserId(String userId);
 
 }
