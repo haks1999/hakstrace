@@ -23,9 +23,9 @@ hakstrace.initPageableTable = function(tableId){
  * tableId
  * thymeleaf url 
  * json param
- * functions :{ row:function, callback:function }
+ * callbacks :{ row:function, cols:{colId:function(abbr)}, after:function }
  */
-hakstrace.loadPageableTable = function(tableId, url, param, functions){
+hakstrace.loadPageableTable = function(tableId, url, param, callbacks){
 	var targetTable = $('#' + tableId);
 	if( $(targetTable).attr("pageable") != "true" ) hakstrace.initPageableTable(tableId);
 	$(targetTable).find('tbody tr').not('.hide').remove();
@@ -35,13 +35,22 @@ hakstrace.loadPageableTable = function(tableId, url, param, functions){
 		var dataList = pageableList.content;
 		for( var inx=0; inx < dataList.length; inx++ ){
 			var copiedRow = $(targetTable).find('tbody tr.hide').clone();
-			if( functions && functions.row ){
-				functions.row.call(null, copiedRow);	
+			if( callbacks && callbacks.row ){
+				callbacks.row.call(null, copiedRow);	
 			}else{
 				$(copiedRow).find('td').each(function(){
 					var colname=$(this).attr("abbr");
-					if(colname && colname.length>0){
-						$(this).text(dataList[inx][colname]);
+					if( callbacks && callbacks.cols && callbacks.cols[colname] ){
+						$(this).html(callbacks.cols[colname].call(null, dataList[inx]));
+					}else{
+						if(colname && colname.length>0){
+							var colnameArr = colname.split(".");
+							var colnameParent = dataList[inx];
+							for( var jnx=0;jnx<colnameArr.length;jnx++){
+								colnameParent = colnameParent[colnameArr[jnx]];
+							}
+							$(this).text(colnameParent);
+						}
 					}
 				});
 			}
@@ -70,8 +79,8 @@ hakstrace.loadPageableTable = function(tableId, url, param, functions){
 		}
 		
 		
-		if( functions && functions.callback ){
-			functions.callback.call(null);	
+		if( callbacks && callbacks.after ){
+			callbacks.after.call(null);	
 		}
 	});
 };

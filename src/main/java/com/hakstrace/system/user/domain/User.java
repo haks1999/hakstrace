@@ -3,6 +3,7 @@ package com.hakstrace.system.user.domain;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.hakstrace.framework.domain.Domain;
@@ -25,6 +26,10 @@ public class User extends Domain{
 
 	@Column(nullable = false)
 	private String password;
+	
+	@ManyToOne()
+	private Authority authority; 
+	
 
 	protected User() {
 	}
@@ -39,6 +44,10 @@ public class User extends Domain{
 
 	public String getUserName() {
 		return userName;
+	}
+	
+	public Authority getAuthority(){
+		return authority;
 	}
 
 	public void setUserName(String userName) {
@@ -61,4 +70,7 @@ public class User extends Domain{
 		this.password = password;
 	}
 
+	public void setAuthority(Authority authority){
+		this.authority = authority;
+	}
 }

@@ -4,7 +4,18 @@
 //<![CDATA[
 $(function() {
 	$("#btn_search").click(function(){
-		hakstrace.loadPageableTable("tbl_userList", /*[[ @{'/system/users/list'} ]]*/, {userName:$("#ipt_userName").val()});
+		hakstrace.loadPageableTable(
+				"tbl_userList", 
+				/*[[ @{'/system/users/list'} ]]*/, 
+				{userName:$("#ipt_userName").val()},
+				callbacks:{
+					cols:{
+						userId:function(data){
+								return data.userId;
+							}
+						}
+				}
+		);
 	});
 	
 	$("#btn_search").trigger("click");
@@ -57,6 +68,7 @@ $(function() {
 							<th>Id</th>
 							<th>User Name</th>
 							<th>Email</th>
+							<th>Auth</th>
 						</tr>
 					</thead>
 					<tbody class="table-hover">
@@ -65,6 +77,7 @@ $(function() {
 							<td abbr="userId"></td>
 							<td abbr="userName"></td>
 							<td abbr="email"></td>
+							<td abbr="authority.authName"></td>
 						</tr>
 					</tbody>
 				</table>
