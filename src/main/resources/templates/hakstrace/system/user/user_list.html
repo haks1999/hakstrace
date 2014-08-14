@@ -3,15 +3,16 @@
 <script th:inline="javascript">
 //<![CDATA[
 $(function() {
+	var userUrl = /*[[ @{'/system/users'} ]]*/;
 	$("#btn_search").click(function(){
 		hakstrace.loadPageableTable(
 				"tbl_userList", 
-				/*[[ @{'/system/users/list'} ]]*/, 
+				userUrl, 
 				{userName:$("#ipt_userName").val()},
-				callbacks:{
+				{
 					cols:{
 						userId:function(data){
-								return data.userId;
+								return '<a onclick="hakstrace.loadContent(\''  + userUrl  + '/' + data.userId + '\')">'+data.userId+'</a>';
 							}
 						}
 				}
@@ -86,30 +87,11 @@ $(function() {
 
 
 
-				
-
-
-
-
-
-
 		</div>
 	</div>
 </div>
 
 
 
-
-
-
-
-
-
-
-
-
-
 </div>
-
-
 
