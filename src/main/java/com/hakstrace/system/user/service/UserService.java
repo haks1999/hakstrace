@@ -23,4 +23,11 @@ public class UserService{
 	  Page<User> users = userRepository.findAll(UserSpecification.searchUser(userName), request);
 	  return users;
   }
+  
+  @Transactional(readOnly = true)
+  public User findByUserId(String userId){
+	  return userRepository.findByUserId(userId);
+  }
+  
+  
 }

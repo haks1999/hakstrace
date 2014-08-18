@@ -645,10 +645,12 @@ ul.DTTT_dropdown.dropdown-menu > li:hover > a {
   border-bottom: 1px dashed #B6B6B6;
   display: inline-block;
 }
+/** haks form-group margin remove
 .box-content .form-group, .devoops-modal-inner .form-group {
   margin-top:15px;
   margin-bottom:15px;
 }
+**/
 .show-grid [class^="col-"] {
   padding-top: 10px;
   padding-bottom: 10px;
@@ -1418,8 +1420,13 @@ td.beauty-hover {
   min-height: inherit;
   padding-top: 0;
 }
+/** haks padding-top change 
 .form-horizontal .control-label {
   padding-top: 4px;
+}
+**/
+.form-horizontal .control-label {
+  padding-top: 5px;
 }
 .input-group-addon {
   padding: 0px 6px;
