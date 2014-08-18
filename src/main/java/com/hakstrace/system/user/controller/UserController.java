@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.hakstrace.common.code.util.StaticCommonCode;
 import com.hakstrace.system.user.domain.User;
 import com.hakstrace.system.user.service.UserService;
 
@@ -35,6 +36,8 @@ public class UserController {
 	public String forwardToUserDetail( @PathVariable String userId,
 									final ModelMap model) {
 		model.addAttribute(userService.findByUserId(userId));
+		model.addAttribute(StaticCommonCode.PAGE_TYPE.CREATE,true);
+		model.addAttribute(StaticCommonCode.PAGE_TYPE.DELETE,true);
 		return "hakstrace/system/user/user_detail";
 	}
 	

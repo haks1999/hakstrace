@@ -16,6 +16,12 @@ public class CommonCodeController {
 	
 	@Autowired
 	private CommonCodeService commonCodeService;
+	
+	@RequestMapping(value="/common/codes.js", method = RequestMethod.GET, headers="Accept=*/*", produces = "text/javascript")
+	@ResponseBody
+	public String retrieveStaticCommonCodeJs() {
+		return "function test_001(){alert('test');};";
+	}
 
 	@RequestMapping(value="/common/codes/authority", method = RequestMethod.GET)
 	@ResponseBody
