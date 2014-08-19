@@ -9,6 +9,10 @@ margin-right: 0px;
 margin-left: 0px;
 }
 
+.form-horizontal fieldset {
+	margin-bottom: 25px;
+}
+
 .form-group span.form-text{
 	padding-top:4px;
 	display:inline-block;

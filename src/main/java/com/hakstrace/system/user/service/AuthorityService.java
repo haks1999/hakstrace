@@ -20,5 +20,9 @@ public class AuthorityService{
 	  return authorityRepository.findAll();
   }
   
+  @Transactional(readOnly = true)
+  public Authority findByAuthCode(String authCode){
+	  return authorityRepository.findByAuthCode(authCode);
+  }
   
 }

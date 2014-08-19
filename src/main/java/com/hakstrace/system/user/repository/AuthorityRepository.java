@@ -10,4 +10,5 @@ public interface AuthorityRepository extends Repository<Authority, String> {
 
 	List<Authority> findAll();
 
+	Authority findByAuthCode(String authCode);
 }

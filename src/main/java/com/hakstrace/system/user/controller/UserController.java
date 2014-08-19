@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -39,6 +40,15 @@ public class UserController {
 		model.addAttribute(StaticCommonCode.PAGE_TYPE.CREATE,true);
 		model.addAttribute(StaticCommonCode.PAGE_TYPE.DELETE,true);
 		return "hakstrace/system/user/user_detail";
+	}
+	
+	@RequestMapping(value="/system/users/edit/{userId}", method = RequestMethod.POST)
+	@ResponseBody
+	public User saveUserDetail( @PathVariable String userId,
+								@RequestBody User user) {
+		user.setUserId(userId);
+		userService.updateUserDetail(user);
+		return user;
 	}
 	
 	

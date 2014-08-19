@@ -1,9 +1,11 @@
+
+//initialize
 $(function() {
-	
+	$.fn.editable.defaults.mode = 'inline';
 	
 });
 
-
+// common functions
 var hakstrace = {};
 
 hakstrace.initPageableTable = function(tableId){
@@ -32,9 +34,6 @@ hakstrace.loadPageableTable = function(tableId, url, param, callbacks){
 	$(targetTable).find("tfoot div.pagination li").removeClass("disabled");
 	param.pageNum = param.pageNum || $(targetTable).attr("pagenum");
 	
-	
-	contentType: 'application/json'
-		
 	$.ajax({
 		contentType: 'application/json',
 		url: url,
@@ -107,4 +106,24 @@ hakstrace.loadPageableTable = function(tableId, url, param, callbacks){
 hakstrace.loadContent = function(url){
 	window.location.hash = url;
 	LoadAjaxContent(url);	//devoops.js
+};
+
+
+hakstrace.saveData = function(url, param, callback){
+	var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+    $(document).ajaxSend(function(e, xhr, options) {
+        xhr.setRequestHeader(header, token);
+    });
+    var _param = param?param:{};
+    var _callback = callback?callback:function(){return false;};
+	$.ajax({
+		contentType: 'application/json',
+		url: url,
+		type: 'POST',
+		dataType: "json",
+		data: JSON.stringify(_param),
+		success: _callback
+	});
+	return  false;
 };

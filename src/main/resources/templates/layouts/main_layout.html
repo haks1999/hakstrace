@@ -9,6 +9,8 @@
 		<meta name="author" content="Evgeniya" />
 		<meta name="keyword" content="keywords" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="_csrf" th:attr="content=${_csrf.token}" />
+    	<meta name="_csrf_header" th:attr="content=${_csrf.headerName}" />
 		<link type="text/css" th:href="@{/plugins/bootstrap/bootstrap.css}" rel="stylesheet" />
 		<link type="text/css" th:href="@{http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css}" rel="stylesheet" />
 		<link type="text/css" th:href="@{http://fonts.googleapis.com/css?family=Righteous}" rel="stylesheet" />

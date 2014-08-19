@@ -16,6 +16,8 @@ public class UserService{
 
   @Autowired 
   private UserRepository userRepository;
+  @Autowired
+  private AuthorityService authorityService;
 
   @Transactional(readOnly = true)
   public Page<User> findAll(int pageNum, String userName){
@@ -29,5 +31,13 @@ public class UserService{
 	  return userRepository.findByUserId(userId);
   }
   
+  @Transactional
+  public void updateUserDetail(User user){
+	  User oUser = userRepository.findByUserId(user.getUserId());
+	  oUser.setUserName(user.getUserName());
+	  oUser.setEmail(user.getEmail());
+	  oUser.setAuthority(user.getAuthority());
+	  userRepository.save(oUser);
+  }
   
 }

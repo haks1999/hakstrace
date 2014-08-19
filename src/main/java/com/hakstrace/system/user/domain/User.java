@@ -31,7 +31,7 @@ public class User extends Domain{
 	private Authority authority; 
 	
 
-	protected User() {
+	public User() {
 	}
 
 	public String getUserId() {
