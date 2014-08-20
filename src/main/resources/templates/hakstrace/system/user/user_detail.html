@@ -3,8 +3,6 @@
 <script th:inline="javascript">
 //<![CDATA[
 $(function() {
-	$('#ipt_userId').editable("disable");
-	$('#ipt_userName').editable();
 	$('#ipt_email').editable({
 		validate: function(value) {
 		    if($.trim(value) == '') {
@@ -15,9 +13,38 @@ $(function() {
 	$('#ipt_auth').editable({
         source: /*[[ @{'/common/codes/authority'} ]]*/
     });
-	
 });
 
+//]]>
+</script>
+
+<script th:if="${PAGE_TYPE_R}" th:inline="javascript">
+//<![CDATA[
+$(function() {
+	$("form .form-group a.x-editable").editable("disable");
+});
+//]]>
+</script>
+
+<script th:if="${PAGE_TYPE_C}" th:inline="javascript">
+//<![CDATA[
+$(function() {
+	$("form .form-group a.x-editable").editable("enable");
+	$('#ipt_userId').editable({
+		ajaxOptions: {
+		    type: 'get',
+		    dataType: 'json',
+		    contentType: 'application/json',
+		},
+		params: function(params) {
+		    return {userId:$("#ipt_userId").editable("getValue",true)};
+		},
+		url:/*[[ @{'/system/users/add/dupcheck'} ]]*/,
+		success: function(response, newValue) {
+			return "sadasdsd";
+		}
+    });
+});
 //]]>
 </script>
 
@@ -42,7 +69,7 @@ $(function() {
 			<div class="box-header">
 				<div class="box-name">
 					<i class="fa fa-user"></i>
-					<span>Use Detail</span>
+					<span>User Detail</span>
 				</div>
 				<div class="box-icons">
 					<a class="collapse-link">
@@ -58,31 +85,64 @@ $(function() {
 				<div class="no-move"></div>
 			</div>
 			<div class="box-content">
+  
 				<form method="post" th:object="${user}" class="form-horizontal">
-					
+					<div th:if="${PAGE_TYPE_U}" class="form-dropdown dropdown">
+						<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+    						<i class="fa fa-cog"></i>
+    						<span class="caret"></span>
+  						</button>
+  						<ul class="dropdown-menu pull-right" role="menu">
+						    <li role="presentation"><a role="menuitem" tabindex="-1" type="edit">Edit</a></li>
+						    <li role="presentation"><a role="menuitem" tabindex="-1" type="delete">Delete</a></li>
+						    <li role="presentation"><a role="menuitem" tabindex="-1" type="changePassword">Change password</a></li>
+						</ul>
+						<script th:inline="javascript">
+						//<![CDATA[
+							$("div.form-dropdown ul.dropdown-menu a[type='edit']").click(function(){
+								$("form .form-group a.x-editable.float").editable("enable");
+								$(".form-dropdown button").attr("disabled","disabled");
+								$("#btn_save,#btn_cancel").removeClass("no-move");
+								$("#btn_list").addClass("no-move");
+							});
+						//]]>
+						</script>
+					</div>
 					<fieldset>
 						<div class="form-group">
 							<label class="col-sm-2 control-label">ID</label>
 							<div class="col-sm-5">
-								<a id="ipt_userId" data-title="userId" th:text="*{userId}"></a>
+								<a id="ipt_userId" class="x-editable" th:text="*{userId}"></a>
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-sm-2 control-label">Name</label>
 							<div class="col-sm-5">
-								<a href="#" id="ipt_userName" data-title="userName" th:text="*{userName}"></a>
+								<a id="ipt_userName" class="x-editable float" th:text="*{userName}"></a>
+							</div>
+						</div>
+						<div class="form-group" th:if="${PAGE_TYPE_C}">
+							<label class="col-sm-2 control-label">Password</label>
+							<div class="col-sm-5">
+								<a id="ipt_password" class="x-editable"></a>
+							</div>
+						</div>
+						<div class="form-group" th:if="${PAGE_TYPE_C}">
+							<label class="col-sm-2 control-label">Password Confirm</label>
+							<div class="col-sm-5">
+								<a id="ipt_passwordCfm" class="x-editable"></a>
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-sm-2 control-label">Email</label>
 							<div class="col-sm-5">
-								<a href="#" id="ipt_email" data-title="email" th:text="*{email}"></a>
+								<a id="ipt_email" class="x-editable float" th:text="*{email}"></a>
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-sm-2 control-label">Authority</label>
 							<div class="col-sm-5">
-								<a href="#" id="ipt_auth" data-type="select" data-title="authName" th:attr="data-value=*{authority.authCode}" th:text="*{authority.authName}"></a>
+								<a id="ipt_auth" class="x-editable float" data-type="select" th:attr="data-value=*{authority.authCode}" th:text="*{authority.authName}"></a>
 							</div>
 						</div>
 						
@@ -90,8 +150,11 @@ $(function() {
 					
 					<div class="form-group">
 						<div class="col-sm-9 col-sm-offset-2">
-							<button id="btn_save" class="btn btn-primary btn-sm">
+							<button id="btn_save" class="btn btn-primary btn-sm no-move">
   								<span class="glyphicon glyphicon-ok"></span> Save
+							</button>
+							<button id="btn_cancel" class="btn btn-default btn-sm no-move">
+  								<span class="glyphicon glyphicon-remove"></span> Cancel
 							</button>
 							<script th:inline="javascript">
 							//<![CDATA[
@@ -102,17 +165,20 @@ $(function() {
 								    		 email:$("#ipt_email").editable("getValue",true),
 								    		 authority:{
 								    			 authCode:$("#ipt_auth").editable("getValue",true)
-								    		 }}
+								    		 }},
+								    		hakstrace.reloadContent
 								    		);
+									
+									return false;
+								});
+								$("#btn_cancel").click(function(){
+									hakstrace.reloadContent();
 									return false;
 								});
 							//]]>
 							</script>
-							<button type="button" class="btn btn-default btn-sm">
-  								<span class="glyphicon glyphicon-remove"></span> Delete
-							</button>
 							<button id="btn_list" type="button" class="btn btn-default btn-sm">
-  								<span class="glyphicon glyphicon-arrow-right"></span> List
+  								<span class="glyphicon glyphicon-list"></span> List
 							</button>
 							<script th:inline="javascript">
 							//<![CDATA[

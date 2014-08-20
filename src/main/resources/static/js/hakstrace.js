@@ -2,6 +2,7 @@
 //initialize
 $(function() {
 	$.fn.editable.defaults.mode = 'inline';
+	//$.fn.editable.defaults.disabled = true;
 	
 });
 
@@ -107,6 +108,10 @@ hakstrace.loadContent = function(url){
 	window.location.hash = url;
 	LoadAjaxContent(url);	//devoops.js
 };
+
+hakstrace.reloadContent = function(){
+	hakstrace.loadContent(location.hash.replace("#",""));
+}
 
 
 hakstrace.saveData = function(url, param, callback){

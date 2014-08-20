@@ -23,7 +23,7 @@ public class Authority extends Domain{
 	@Column
 	private String description;
 
-	protected Authority() {
+	public Authority() {
 	}
 
 	public String getAuthCode() {
