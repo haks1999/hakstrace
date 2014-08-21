@@ -17,6 +17,7 @@ $(function() {
 						}
 				}
 		);
+		return false;
 	});
 	
 	$("#btn_search").trigger("click");
@@ -76,11 +77,11 @@ $(function() {
     						<span class="caret"></span>
   						</button>
   						<ul class="dropdown-menu" role="menu" >
-    						<li role="presentation"><a role="menuitem" tabindex="-1" type="create">Create User</a></li>
+    						<li role="presentation"><a role="menuitem" tabindex="-1" type="add">Add User</a></li>
   						</ul>
   						<script th:inline="javascript">
 						//<![CDATA[
-						$("div.dropdown ul.dropdown-menu a[type='create']").click(function(){
+						$("div.dropdown ul.dropdown-menu a[type='add']").click(function(){
 							hakstrace.loadContent(/*[[ @{'/system/users/add'} ]]*/);
 						});
 						//]]>

@@ -1,5 +1,8 @@
 package com.hakstrace.system.user.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -41,12 +44,13 @@ public class UserController {
 		model.addAttribute(StaticCommonCode.PAGE_TYPE.READ,true);
 		model.addAttribute(StaticCommonCode.PAGE_TYPE.UPDATE,true);
 		model.addAttribute(StaticCommonCode.PAGE_TYPE.DELETE,true);
+		model.addAttribute(StaticCommonCode.PAGE_TYPE.CREATE,false);
 		return "hakstrace/system/user/user_detail";
 	}
 	
 	@RequestMapping(value="/system/users/edit/{userId}", method = RequestMethod.POST)
 	@ResponseBody
-	public User saveUserDetail( @PathVariable String userId,
+	public User updateUserDetail( @PathVariable String userId,
 								@RequestBody User user) {
 		user.setUserId(userId);
 		userService.updateUserDetail(user);
@@ -58,16 +62,26 @@ public class UserController {
 		User user = new User();
 		user.setAuthority(new Authority());
 		model.addAttribute("user", user);
+		model.addAttribute(StaticCommonCode.PAGE_TYPE.UPDATE,false);
 		model.addAttribute(StaticCommonCode.PAGE_TYPE.CREATE,true);
 		return "hakstrace/system/user/user_detail";
 	}
 	
+	@RequestMapping(value="/system/users/add", method = RequestMethod.POST)
+	@ResponseBody
+	public User addUser(@RequestBody User user) {
+		System.out.println(user);
+		//userService.updateUserDetail(user);
+		return user;
+	}
+	
 	@RequestMapping(value="/system/users/add/dupcheck", method = RequestMethod.GET, consumes="application/json")
 	@ResponseBody
-	public ModelMap checkExistUser(final ModelMap model,
-									@RequestParam(value = "userId", required = true) String userId) {
-		model.addAttribute("exist", userService.findByUserId(userId) == null);
-		return model;
+	public Map<String,Boolean> checkExistUser(@RequestParam(value = "userId", required = true) String userId) {
+		//model.addAttribute("exist", userService.findByUserId(userId) == null);
+		Map<String,Boolean> map = new HashMap<String,Boolean>(1);
+		map.put("isExist", userService.findByUserId(userId) != null);
+		return map;
 	}
 	
 }
