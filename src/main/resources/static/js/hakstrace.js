@@ -66,7 +66,7 @@ hakstrace.loadPageableTable = function(tableId, url, param, callbacks){
 				$(copiedRow).removeClass('hide');
 				$(targetTable).append(copiedRow);
 			}
-			$(targetTable).find("tfoot div.dataTables_info").text("Showing " + dataList.length + " to " + pageableList.numberOfElements + " of " + pageableList.totalElements + " entries");
+			$(targetTable).find("tfoot div.dataTables_info").text("Showing " + (pageableList.number*pageableList.size+1) + " to " + pageableList.numberOfElements + " of " + pageableList.totalElements + " entries");
 			$(targetTable).find("tfoot ul.pagination li a").unbind();
 			if(pageableList.firstPage == true){
 				$(targetTable).find("tfoot ul.pagination li.prev").addClass("disabled");

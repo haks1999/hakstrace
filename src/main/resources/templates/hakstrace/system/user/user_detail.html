@@ -11,6 +11,7 @@ $(function() {
 		}
 	});
 	$('#ipt_auth').editable({
+		emptytext: 'Select',
         source: /*[[ @{'/common/codes/authority'} ]]*/
     });
 });
@@ -42,15 +43,13 @@ $(function() {
 		url:/*[[ @{'/system/users/add/dupcheck'} ]]*/,
 		success: function(response, newValue) {
 			if(response.isExist) return "exist ID"
-			var that = this;
-			setTimeout(function() {
-		        $(that).closest("div.form-group").next().find('.x-editable').editable('show');
-		    }, 200);
+			focusNextEditable(this);
 		}
     });
 	$("#ipt_password").editable({
 		success: function(response, newValue){
 			$("#ipt_passwordCfm").editable("setValue","");
+			focusNextEditable(this);
 		}
 	});
 	$('#ipt_passwordCfm').editable({
@@ -58,10 +57,26 @@ $(function() {
 			if( $("#ipt_password").editable("getValue",true) != value ){
 				return "password does not match";				
 			}
+		},
+		success: function(response, newValue){
+			focusNextEditable(this);
 		}
 	});
+	$("#ipt_email").editable({
+		success: function(response, newValue){
+			focusNextEditable(this);
+		}
+	});
+
 	$("form .form-group a.x-editable").editable("enable");
 });
+
+function focusNextEditable(obj){
+	var that = obj;
+	setTimeout(function() {
+        $(that).closest("div.form-group").next().find('.x-editable').editable('show');
+    }, 200);
+};
 //]]>
 </script>
 
@@ -158,7 +173,7 @@ $(function() {
 						<div class="form-group">
 							<label class="col-sm-2 control-label">Email</label>
 							<div class="col-sm-5">
-								<a id="ipt_email" data-type="email" class="x-editable float" th:text="*{email}"></a>
+								<a id="ipt_email" class="x-editable float" th:text="*{email}"></a>
 							</div>
 						</div>
 						<div class="form-group">

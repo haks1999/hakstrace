@@ -67,11 +67,10 @@ public class UserController {
 		return "hakstrace/system/user/user_detail";
 	}
 	
-	@RequestMapping(value="/system/users/add", method = RequestMethod.POST)
+	@RequestMapping(value="/system/users/add", method = RequestMethod.POST, consumes="application/json")
 	@ResponseBody
 	public User addUser(@RequestBody User user) {
-		System.out.println(user);
-		//userService.updateUserDetail(user);
+		userService.addUser(user);
 		return user;
 	}
 	
