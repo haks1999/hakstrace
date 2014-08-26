@@ -1412,10 +1412,11 @@ td.beauty-hover {
   padding: 0;
   margin: 0;
 }
+/** haks line-height remove **/
 .has-feedback .form-control-feedback {
   width: 26px;
   height: 26px;
-  line-height: 26px;
+  /**line-height: 26px;**/
 }
 .form-horizontal .radio, .form-horizontal .checkbox, .form-horizontal .radio-inline, .form-horizontal .checkbox-inline {
   min-height: inherit;

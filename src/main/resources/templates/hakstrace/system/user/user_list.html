@@ -12,6 +12,7 @@ $(function() {
 				{
 					cols:{
 						userId:function(data){
+								console.log(data.userId);
 								return '<a onclick="hakstrace.loadContent(\''  + userUrl  + '/edit/' + data.userId + '\')">'+data.userId+'</a>';
 							}
 						}

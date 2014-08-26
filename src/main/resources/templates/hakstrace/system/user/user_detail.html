@@ -42,7 +42,7 @@ $(function() {
 		},
 		url:/*[[ @{'/system/users/add/dupcheck'} ]]*/,
 		success: function(response, newValue) {
-			if(response.isExist) return "exist ID"
+			if(!response.valid) return "exist ID"
 			focusNextEditable(this);
 		}
     });

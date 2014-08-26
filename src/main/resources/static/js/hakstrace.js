@@ -32,7 +32,7 @@ hakstrace.loadPageableTable = function(tableId, url, param, callbacks){
 	var targetTable = $('#' + tableId);
 	if( $(targetTable).attr("pageable") != "true" ) hakstrace.initPageableTable(tableId);
 	$(targetTable).find('tbody tr').not('.hide').remove();
-	$(targetTable).find("tfoot div.pagination li").removeClass("disabled");
+	$(targetTable).find("tfoot ul.pagination li").removeClass("disabled");
 	param.pageNum = param.pageNum || $(targetTable).attr("pagenum");
 	
 	$.ajax({
@@ -66,7 +66,7 @@ hakstrace.loadPageableTable = function(tableId, url, param, callbacks){
 				$(copiedRow).removeClass('hide');
 				$(targetTable).append(copiedRow);
 			}
-			$(targetTable).find("tfoot div.dataTables_info").text("Showing " + (pageableList.number*pageableList.size+1) + " to " + pageableList.numberOfElements + " of " + pageableList.totalElements + " entries");
+			$(targetTable).find("tfoot div.dataTables_info").text("Showing " + (pageableList.number*pageableList.size+1) + " to " + (pageableList.number*pageableList.size+pageableList.numberOfElements) + " of " + pageableList.totalElements + " entries");
 			$(targetTable).find("tfoot ul.pagination li a").unbind();
 			if(pageableList.firstPage == true){
 				$(targetTable).find("tfoot ul.pagination li.prev").addClass("disabled");
@@ -74,7 +74,7 @@ hakstrace.loadPageableTable = function(tableId, url, param, callbacks){
 				$(targetTable).find("tfoot ul.pagination li.prev a").click(function(){
 					var prevParam = param;
 					prevParam.pageNum = Number(pageableList.number);
-					hakstrace.loadPageableTable(tableId, url, prevParam);
+					hakstrace.loadPageableTable(tableId, url, prevParam, callbacks);
 				});
 			}
 			if(pageableList.lastPage == true){
@@ -83,7 +83,7 @@ hakstrace.loadPageableTable = function(tableId, url, param, callbacks){
 				$(targetTable).find("tfoot ul.pagination li.next a").click(function(){
 					var nextParam = param;
 					nextParam.pageNum = Number(pageableList.number)+2;
-					hakstrace.loadPageableTable(tableId, url, nextParam);
+					hakstrace.loadPageableTable(tableId, url, nextParam, callbacks);
 				});
 			}
 			

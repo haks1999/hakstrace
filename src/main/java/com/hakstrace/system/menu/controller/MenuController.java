@@ -1,15 +1,16 @@
-package com.hakstrace.framework.view;
+package com.hakstrace.system.menu.controller;
 
 import java.util.Map;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+
+import com.hakstrace.framework.view.Layout;
 
 @Configuration
 @Controller
-public class ViewConfigure extends WebMvcConfigurerAdapter {
+public class MenuController{
 
 	@RequestMapping("/")
 	@Layout("layouts/main_layout")

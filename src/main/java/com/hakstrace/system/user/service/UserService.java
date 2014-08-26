@@ -8,6 +8,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.hakstrace.common.code.util.CommonCode;
+import com.hakstrace.system.user.domain.Authority;
 import com.hakstrace.system.user.domain.User;
 import com.hakstrace.system.user.domain.UserSpecification;
 import com.hakstrace.system.user.repository.UserRepository;
@@ -22,7 +24,7 @@ public class UserService{
 
   @Transactional(readOnly = true)
   public Page<User> findAll(int pageNum, String userName){
-	  PageRequest request = new PageRequest(pageNum-1, 30, Sort.Direction.ASC, "userId");
+	  PageRequest request = new PageRequest(pageNum-1, 15, Sort.Direction.ASC, "userId");
 	  Page<User> users = userRepository.findAll(UserSpecification.searchUser(userName), request);
 	  return users;
   }
@@ -45,6 +47,14 @@ public class UserService{
   public void addUser(User user){
 	  user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
 	  userRepository.save(user);
+  }
+  
+  @Transactional
+  public void registerUser(User user){
+	  Authority authority = new Authority();
+	  authority.setAuthCode(CommonCode.AUTH_CODE.USER);
+	  user.setAuthority(authority);
+	  addUser(user);
   }
   
 }

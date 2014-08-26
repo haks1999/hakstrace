@@ -17,18 +17,36 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import com.hakstrace.framework.view.Layout;
+import com.hakstrace.system.user.domain.User;
+import com.hakstrace.system.user.service.UserService;
 
 @Configuration
 @Controller
 public class SecurityConfigure extends WebMvcConfigurerAdapter {
 
+	@Autowired
+	private UserService userService;
+	
 	@RequestMapping("/login")
 	@Layout("layouts/login_layout")
-	public String login(Map<String, Object> model) {
+	public String forwardToLoginPage(Map<String, Object> model) {
 		return "hakstrace/login";
+	}
+	
+	@RequestMapping(value="/register", method = RequestMethod.GET)
+	@Layout("layouts/login_layout")
+	public String forwardToRegisterPage(Map<String, Object> model) {
+		return "hakstrace/register";
+	}
+	
+	@RequestMapping(value="/register", method = RequestMethod.POST)
+	public String register(User user) {
+		userService.registerUser(user);
+		return "redirect:/";
 	}
 	
 	@Bean
@@ -64,7 +82,7 @@ public class SecurityConfigure extends WebMvcConfigurerAdapter {
 		
 		@Override
 		public void configure(WebSecurity web) throws Exception {
-			web.ignoring().antMatchers("/plugins/**","/img/**");
+			web.ignoring().antMatchers("/plugins/**","/img/**","/fonts/**","/register/**");
 		}
 		
 		@Override

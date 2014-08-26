@@ -1,0 +1,121 @@
+<div class="container-fluid" th:fragment="content">
+	
+<script th:inline="javascript">
+//<![CDATA[
+$(function() {
+	$('#frm_register').bootstrapValidator({
+        message: 'This value is not valid',
+        feedbackIcons: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+        	userId: {
+        		trigger: 'blur',
+                validators: {
+                    notEmpty: {
+                        message: 'The ID is required'
+                    },
+                    remote: {
+                    	type:"GET",
+                    	data:{userId: $('#frm_register input[name=userId]:first').val()},
+                        message: 'The ID is already exists.',
+                        url: /*[[ @{'/register/dupcheck'} ]]*/,
+                    },
+                    regexp: {
+                        regexp: /^[a-z0-9]+$/i,
+                        message: 'The ID can consist of alphabetical characters and numeric only.'
+                    },
+                    stringLength: {
+                    	min: 4,
+                        max: 15,
+                        message: 'The ID must be greater than 4 characters and less than 15 characters.'
+                    }
+                }
+            },
+            password: {
+            	trigger: 'blur',
+                validators: {
+                    notEmpty: {
+                        message: 'The Password is required'
+                    },
+                    stringLength: {
+                    	min: 4,
+                        max: 15,
+                        message: 'The Password must be greater than 4 characters and less than 15 characters.'
+                    }
+                }
+            },
+            userName: {
+            	trigger: 'blur',
+                validators: {
+                    notEmpty: {
+                        message: 'The Name is required'
+                    },
+                    stringLength: {
+                    	min: 4,
+                        max: 15,
+                        message: 'The Name must be greater than 4 characters and less than 15 characters.'
+                    }
+                }
+            },
+            email:{
+            	trigger: 'blur',
+            	validators: {
+            		emailAddress: {
+                        message: 'The Email address is not valid.'
+                    }            		
+            	}
+            }
+           
+        }
+    });
+	
+	$("#frm_register input:first").focus();
+});
+
+//]]>
+</script>
+	
+	
+	<div id="page-login" class="row">
+		<div class="col-xs-12 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3">
+			<div class="text-right">
+				<a th:href="@{/login}" class="txt-default">Already have an account?</a>
+			</div>
+			<div class="box">
+				<div class="box-content">
+					<div class="text-center">
+						<h3 class="page-header">Hakstrace Register</h3>
+					</div>
+					<form id="frm_register" method="post" th:action="@{/register}">
+						<div class="form-group">
+							<label class="control-label">User ID</label>
+							<input type="text" class="form-control" name="userId" />
+						</div>
+						<div class="form-group">
+							<label class="control-label">Password</label>
+							<input type="password" class="form-control" name="password" />
+						</div>
+						<div class="form-group">
+							<label class="control-label">User Name</label>
+							<input type="text" class="form-control" name="userName" />
+						</div>
+						<div class="form-group">
+							<label class="control-label">Email</label>
+							<input type="text" class="form-control" name="email" />
+						</div>
+						<div class="text-center">
+							<button type="submit" class="btn btn-primary"> Register</button>
+							<a th:href="@{/}" class="btn btn-default">Cancel</a>
+						</div>
+					</form>
+					
+					
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
