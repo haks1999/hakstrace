@@ -315,9 +315,10 @@ a.show-sidebar:hover {
 .well {
   padding:15px;
 }
+/** haks z-index remove **/
 .box {
   display: block;
-  z-index: 1999;
+  /** z-index: 1999; **/
   position: relative;
   border: 1px solid #f8f8f8;
   box-shadow: 0 0 4px #D8D8D8;

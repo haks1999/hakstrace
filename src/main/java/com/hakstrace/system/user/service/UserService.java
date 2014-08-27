@@ -24,7 +24,7 @@ public class UserService{
 
   @Transactional(readOnly = true)
   public Page<User> findAll(int pageNum, String userName){
-	  PageRequest request = new PageRequest(pageNum-1, 15, Sort.Direction.ASC, "userId");
+	  PageRequest request = new PageRequest(pageNum-1, 10, Sort.Direction.ASC, "userId");
 	  Page<User> users = userRepository.findAll(UserSpecification.searchUser(userName), request);
 	  return users;
   }

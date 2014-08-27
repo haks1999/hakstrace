@@ -111,7 +111,7 @@ hakstrace.loadContent = function(url){
 
 hakstrace.reloadContent = function(){
 	hakstrace.loadContent(location.hash.replace("#",""));
-}
+};
 
 
 hakstrace.saveData = function(url, param, callback){
@@ -131,4 +131,19 @@ hakstrace.saveData = function(url, param, callback){
 		success: _callback
 	});
 	return  false;
+};
+
+hakstrace.editable = {};
+hakstrace.editable.focusNext = function(obj){
+	var that = obj;
+	setTimeout(function() {
+        $(that).closest("div.form-group").next().find('.x-editable').editable('show');
+    }, 200);
+};
+
+hakstrace.editable.validation = {};
+hakstrace.editable.validation.isEmpty = function(value){
+	if($.trim(value) == '') {
+		return 'This field is required';
+	}
 };
