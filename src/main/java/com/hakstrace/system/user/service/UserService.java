@@ -57,4 +57,11 @@ public class UserService{
 	  addUser(user);
   }
   
+  @Transactional
+  public void updateUserPassword(User user){
+	  User oUser = userRepository.findByUserId(user.getUserId());
+	  oUser.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+	  userRepository.save(oUser);
+  }
+  
 }

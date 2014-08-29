@@ -57,6 +57,15 @@ public class UserController {
 		return user;
 	}
 	
+	@RequestMapping(value="/system/users/editpassword/{userId}", method = RequestMethod.POST)
+	@ResponseBody
+	public User updateUserPassword( @PathVariable String userId,
+								@RequestBody User user) {
+		user.setUserId(userId);
+		userService.updateUserPassword(user);
+		return user;
+	}
+	
 	@RequestMapping(value="/system/users/add", method = RequestMethod.GET, consumes="!application/json")
 	public String forwardToUserAdd(final ModelMap model) {
 		User user = new User();
