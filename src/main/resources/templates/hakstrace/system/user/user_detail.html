@@ -114,32 +114,19 @@ $(function() {
 								$("#btn_save,#btn_cancel").removeClass("no-show");
 								$("#btn_list").addClass("no-show");
 							});
+							
 							$("div.form-dropdown ul.dropdown-menu a[type='add']").click(function(){
 								hakstrace.loadContent( /*[[ @{'/system/users/add'} ]]*/ );
 							});
-							$("#btn_save").click(function(){
-								var validateResult = $('.x-editable').editable('validate');
-								for(field in validateResult) {
-									$("#"+field).editable('show');
-									return false;
-								}
-								
-								hakstrace.saveData(
-							    		/*[[ @{'/system/users/add'} ]]*/,
-							    		{userId: $("#ipt_userId").editable("getValue",true),
-							    		 password: $("#ipt_password").editable("getValue",true),
-							    		 userName: $("#ipt_userName").editable("getValue",true),
-							    		 email:$("#ipt_email").editable("getValue",true),
-							    		 authority:{
-							    			 authCode:$("#ipt_auth").editable("getValue",true)
-							    		 }},
-							    		function(){
-							    			 var editUrl = /*[[ @{'/system/users/edit'}  ]]*/;
-							    			 hakstrace.loadContent(editUrl + "/" + $('#ipt_userId').editable('getValue',true));
-							    		 	}
-							    		);
-								return false;
-							});
+							
+							$("div.form-dropdown ul.dropdown-menu a[type='delete']").click(function(){
+								bootbox.confirm("Are you sure?", function(result) {
+									console.log(result);
+								});
+							})
+							
+							
+							
 						//]]>
 						</script>
 					</div>
@@ -265,7 +252,7 @@ $(function() {
 									<div class="form-group">
 										<label class="col-sm-5 control-label">New Password</label>
 										<div class="col-sm-6">
-          									<input name="password" type="password" class="form-control"/>
+          									<input id="ipt_changePassword" name="password" type="password" class="form-control"/>
           								</div>
         							</div>
         							<div class="form-group">
@@ -311,11 +298,16 @@ $(function() {
 								        }
 								    });
 								   	$("#btn_savePassword").click(function(e){
-								   		e.preventDefault();
-								   		$("#frm_changePassword").data('bootstrapValidator').isValidate();
+								   		$("#frm_changePassword").data('bootstrapValidator').validate();
 								   		if( $("#frm_changePassword").data('bootstrapValidator').isValid() ){
-								   			
+								   			hakstrace.saveData(
+										    		/*[[ @{'/system/users/editpassword'} + '/' + ${user.userId} ]]*/,
+										    		{password: $("#ipt_changePassword").val()},
+										    		function(){
+										    			$('#div_changePassword').modal('hide');
+										    		});
 								   		}
+								   		return false;
 								   	});
 								//]]>
 								</script>
