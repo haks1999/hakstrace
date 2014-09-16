@@ -121,7 +121,13 @@ $(function() {
 							
 							$("div.form-dropdown ul.dropdown-menu a[type='delete']").click(function(){
 								bootbox.confirm("Are you sure?", function(result) {
-									console.log(result);
+									hakstrace.saveData(
+											/*[[ @{'/system/users/delete'} + '/' + ${user.userId} ]]*/,
+								    		{},
+								    		function(){
+								    			hakstrace.loadContent( /*[[ @{'/system/users'} ]]*/ );
+								    		 	}
+								    		);
 								});
 							})
 							

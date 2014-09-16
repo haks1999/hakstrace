@@ -83,6 +83,15 @@ public class UserController {
 		return user;
 	}
 	
+	@RequestMapping(value="/system/users/delete/{userId}", method = RequestMethod.POST, consumes="application/json")
+	@ResponseBody
+	public User deleteUser(@PathVariable String userId,
+						@RequestBody User user) {
+		user.setUserId(userId);
+		userService.deleteUser(user);
+		return user;
+	}
+	
 	@RequestMapping(value={"/system/users/add/dupcheck","/register/dupcheck"}, method = RequestMethod.GET)
 	@ResponseBody
 	public Map<String,Boolean> checkExistUser(@RequestParam(value = "userId", required = true) String userId) {

@@ -64,4 +64,9 @@ public class UserService{
 	  userRepository.save(oUser);
   }
   
+  @Transactional
+  public void deleteUser(User user){
+	  userRepository.delete(user);
+  }
+  
 }
